@@ -2,6 +2,7 @@
 # references:
 #  https://fcitx-im.org/wiki/How_to_make_your_own_table-based_input_method
 #  http://wiki.debian.org.hk/w/Create_input_method_with_scim-make-table
+#  /usr/share/fcitx/configdesc/table.desc
 
 import argparse
 import sys
@@ -16,8 +17,11 @@ def gen_fcitx_conf_file(im_name, definitions, table, output2stdout):
         f = open(fname, 'w')
 
     print("[CodeTable]", file=f)
+
+    # Unique Name for Table
     print("UniqueName=%s" % im_name, file=f)
 
+    # Code Table Name
     # name of this table, it's an I18N String.
     name = definitions['NAME']
     print("Name=%s" % name, file=f)
@@ -27,65 +31,152 @@ def gen_fcitx_conf_file(im_name, definitions, table, output2stdout):
         localename = definitions["NAME.%s" % locale]
         print("Name[%s]=%s" % (locale, localename), file=f)
 
-    # icon name
+    # Icon Name
     print("IconName=%s" % im_name, file=f)
 
-    # table data file name
+    # Code Table File
     print("File=%s.mb" % im_name, file=f)
 
+    # Adjust Order
     # adjust order by user input or not.
+    # AdjustNo, AdjustFast, AdjustFreq
     adjust_order = {'TRUE': 'AdjustFreq', 'FALSE': 'AdjustNo'}[definitions['DYNAMIC_ADJUST']]
     print("AdjustOrder=%s" % adjust_order, file=f)
 
+    # Level of simple code
+    #print("SimpleCodeOrderLevel=", file=f)
+
+    # Order of Code Table
     # what is this?
-    print("Priority=%d" % 0, file=f)
+    #print("Priority=%d" % 30, file=f)
 
+    # Use Pinyin
     # uses temporary pinyin mode or not
-    print("UsePY=%s" % False, file=f)
+    #print("UsePY=%s" % False, file=f)
 
+    # Pinyin Key
+    #print("PYKey=", file=f)
+
+    # Auto Send Candidate Word
+    #print("UseAutoSend=%s" % False, file=f)
+
+    # Minimum length trigger auto send candidate word when only one candidate
     # When the input is longer than maximum code length, and if there is only one character,
     # it will automatically commit the candidate or not.
-    print("AutoSend=%d" % -1, file=f)
+    #print("AutoSend=%d" % -1, file=f)
 
+    # Minimum length trigger auto send candidate when there will be no candidate
     # Automatically commit the candidate string if there is no match.
     # For example, abcd has no matched item, but abc have matched item,
     # then the item matched abc will be committed, and d will reside in the input buffer.
     print("NoneMatchAutoSend=%d" % 0, file=f)
 
+    # Send Raw Preedit
+    #print("SendRawPreedit=", file=f)
+
+    # End Key
+    #print("EndKey=", file=f)
+
+    # Use Matching Key
     # use wildcard or not.
     use_matching_key = 'SINGLE_WILDCARD_CHAR' in definitions or 'MULTI_WILDCARD_CHAR' in definitions
     print("UseMatchingKey=%s" % use_matching_key, file=f)
 
-    # automatically construct new phrase.
-    print("AutoPhrase=%s" % False, file=f)
+    # Matching Key
+    #print("MatchingKey=%s" % '?', file=f)
 
-    # length of automatically constructed phrase.
-    print("AutoPhraseLength=%d" % 4, file=f)
-
-    # phrase will be used in automatically constructing phrase or not.
-    print("AutoPhrasePhrase=%s" % False, file=f)
-
-    # count of the phrase need to be selected before saving an automatically constructed phrase. 0 means it will not be saved.
-    print("SaveAutoPhrase=%d" % 3, file=f)
-
+    # Exact Match
     # Only shows the exact match item in the table.
     print("ExactMatch=%s" % False, file=f)
 
+    # Auto Phrase
+    # automatically construct new phrase.
+    print("AutoPhrase=%s" % False, file=f)
+
+    # Keep current buffer when there is no match item and input length is equal code length
+    #print("NoMatchDontCommit=", file=f)
+
+    # Auto Phrase Length
+    # length of automatically constructed phrase.
+    print("AutoPhraseLength=%d" % 4, file=f)
+
+    # Auto Phrase Phrase
+    # phrase will be used in automatically constructing phrase or not.
+    print("AutoPhrasePhrase=%s" % False, file=f)
+
+    # Save Auto Phrase
+    # count of the phrase need to be selected before saving an automatically constructed phrase. 0 means it will not be saved.
+    print("SaveAutoPhrase=%d" % 3, file=f)
+
+    # Prompt Table Code
     # Show the hint for item in this table.
     prompt_table_code = definitions['SHOW_KEY_PROMPT'] == 'TRUE'
     print("PromptTableCode=%s" % prompt_table_code, file=f)
 
+    # Candidate Table Layout
+    # Not Set, Vertical, Horizontal
+    #print("CandidateLayout=", file=f)
+
+    # Symbol
     # symbol mode key
     #print("Symbol=", file=f)
 
+    # Symbol File
     # symbol file name
     #print("SymbolFile=", file=f)
 
+    # Choose
+    #print("Choose=", file=f)
+
+    # Choose key modifier
+    # None, Alt, Ctrl, Shift
+    #print("ChooseModifier=", file=f)
+
+    # Language Code for this table
+    print("LangCode=zh_TW", file=f)
+
+    # Enable
     # enable this table or not.
     print("Enabled=%s" % True, file=f)
 
-    # what is this?
-    print("LangCode=zh_TW", file=f)
+    # Use Custom Prompt String defined in table
+    #print("UseCustomPrompt=", file=f)
+
+    # Keyboard Layout to be used
+    #print("KeyboardLayout=", file=f)
+
+    # Use Alternative Candidate Word Number
+    #print("UseAlternativeCandidateWordNumber=", file=f)
+
+    # Candidate Word Number
+    #print("CandidateWordNumber=", file=f)
+
+    # Use Alternative Key for paging
+    #print("UseAlternativePageKey=", file=f)
+
+    # Alternative Prev Page Key
+    #print("AlternativePrevPage=", file=f)
+
+    # Alternative Next Page Key
+    #print("AlternativeNextPage=", file=f)
+
+    # First Candidate Display as Preedit
+    #print("FirstCandidateAsPreedit=", file=f)
+
+    # Commit and pass when invalid key of this table pressed
+    #print("CommitAndPassByInvalidKey=", file=f)
+
+    # Commit key for select first candidate
+    #print("CommitKey=", file=f)
+
+    # Commit string when there is no match
+    #print("CommitKeyCommitWhenNoMatch=", file=f)
+
+    # Ignore Punctuation
+    #print("IgnorePunc=", file=f)
+
+    # Ignore some Punctuation, if it is empty, then ignore all punctuation
+    #print("IgnorePuncList=", file=f)
 
 
 def gen_fcitx_data_file(im_name, definitions, table, output2stdout):
