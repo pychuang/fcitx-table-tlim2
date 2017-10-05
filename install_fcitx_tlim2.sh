@@ -23,6 +23,7 @@ scim-make-table $DATA_DIR/tlim2.bin
 txt2mb tlim2.txt tlim2.mb
 
 # install
+sudo apt-get install fcitx-table
 sudo cp tlim2.conf $FCITX_ROOT/table/
 sudo cp tlim2.mb $FCITX_ROOT/table/
 sudo cp $DATA_DIR/tlim2.png $FCITX_ROOT/imicon/
