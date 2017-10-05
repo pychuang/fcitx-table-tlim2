@@ -44,38 +44,39 @@ def gen_fcitx_conf_file(im_name, definitions, table, output2stdout):
     print("AdjustOrder=%s" % adjust_order, file=f)
 
     # Level of simple code
-    #print("SimpleCodeOrderLevel=", file=f)
+    # print("SimpleCodeOrderLevel=", file=f)
 
     # Order of Code Table
     # what is this?
-    #print("Priority=%d" % 30, file=f)
+    # print("Priority=%d" % 30, file=f)
 
     # Use Pinyin
     # uses temporary pinyin mode or not
-    #print("UsePY=%s" % False, file=f)
+    # print("UsePY=%s" % False, file=f)
 
     # Pinyin Key
-    #print("PYKey=", file=f)
+    # print("PYKey=", file=f)
 
     # Auto Send Candidate Word
-    #print("UseAutoSend=%s" % False, file=f)
+    use_auto_send = definitions['AUTO_COMMIT'] == 'TRUE'
+    print("UseAutoSend=%s" % use_auto_send, file=f)
 
     # Minimum length trigger auto send candidate word when only one candidate
     # When the input is longer than maximum code length, and if there is only one character,
     # it will automatically commit the candidate or not.
-    #print("AutoSend=%d" % -1, file=f)
+    # print("AutoSend=%d" % -1, file=f)
 
     # Minimum length trigger auto send candidate when there will be no candidate
     # Automatically commit the candidate string if there is no match.
     # For example, abcd has no matched item, but abc have matched item,
     # then the item matched abc will be committed, and d will reside in the input buffer.
-    print("NoneMatchAutoSend=%d" % 0, file=f)
+    # print("NoneMatchAutoSend=%d" % 0, file=f)
 
     # Send Raw Preedit
-    #print("SendRawPreedit=", file=f)
+    # print("SendRawPreedit=%s" % False, file=f)
 
     # End Key
-    #print("EndKey=", file=f)
+    # print("EndKey=", file=f)
 
     # Use Matching Key
     # use wildcard or not.
@@ -83,7 +84,13 @@ def gen_fcitx_conf_file(im_name, definitions, table, output2stdout):
     print("UseMatchingKey=%s" % use_matching_key, file=f)
 
     # Matching Key
-    #print("MatchingKey=%s" % '?', file=f)
+    if 'MULTI_WILDCARD_CHAR' in definitions:
+        matching_key = definitions['MULTI_WILDCARD_CHAR']
+    elif 'SINGLE_WILDCARD_CHAR' in definitions:
+        matching_key = definitions['SINGLE_WILDCARD_CHAR']
+    else:
+        matching_key = ''
+    print("MatchingKey=%s" % matching_key, file=f)
 
     # Exact Match
     # Only shows the exact match item in the table.
@@ -91,22 +98,23 @@ def gen_fcitx_conf_file(im_name, definitions, table, output2stdout):
 
     # Auto Phrase
     # automatically construct new phrase.
-    print("AutoPhrase=%s" % False, file=f)
+    auto_phrase = definitions['AUTO_FILL'] == 'TRUE'
+    print("AutoPhrase=%s" % auto_phrase, file=f)
 
     # Keep current buffer when there is no match item and input length is equal code length
-    #print("NoMatchDontCommit=", file=f)
+    # print("NoMatchDontCommit=", file=f)
 
     # Auto Phrase Length
     # length of automatically constructed phrase.
-    print("AutoPhraseLength=%d" % 4, file=f)
+    # print("AutoPhraseLength=%d" % 4, file=f)
 
     # Auto Phrase Phrase
     # phrase will be used in automatically constructing phrase or not.
-    print("AutoPhrasePhrase=%s" % False, file=f)
+    # print("AutoPhrasePhrase=%s" % True, file=f)
 
     # Save Auto Phrase
     # count of the phrase need to be selected before saving an automatically constructed phrase. 0 means it will not be saved.
-    print("SaveAutoPhrase=%d" % 3, file=f)
+    # print("SaveAutoPhrase=%d" % 0, file=f)
 
     # Prompt Table Code
     # Show the hint for item in this table.
@@ -115,22 +123,24 @@ def gen_fcitx_conf_file(im_name, definitions, table, output2stdout):
 
     # Candidate Table Layout
     # Not Set, Vertical, Horizontal
-    #print("CandidateLayout=", file=f)
+    # print("CandidateLayout=", file=f)
 
     # Symbol
     # symbol mode key
-    #print("Symbol=", file=f)
+    # print("Symbol=", file=f)
 
     # Symbol File
     # symbol file name
-    #print("SymbolFile=", file=f)
+    # print("SymbolFile=", file=f)
 
     # Choose
-    #print("Choose=", file=f)
+    if 'SELECT_KEYS' in definitions:
+        choose = ''.join(definitions['SELECT_KEYS'].split(','))
+        print("Choose=%s" % choose, file=f)
 
     # Choose key modifier
     # None, Alt, Ctrl, Shift
-    #print("ChooseModifier=", file=f)
+    # print("ChooseModifier=", file=f)
 
     # Language Code for this table
     print("LangCode=zh_TW", file=f)
@@ -140,43 +150,43 @@ def gen_fcitx_conf_file(im_name, definitions, table, output2stdout):
     print("Enabled=%s" % True, file=f)
 
     # Use Custom Prompt String defined in table
-    #print("UseCustomPrompt=", file=f)
+    # print("UseCustomPrompt=", file=f)
 
     # Keyboard Layout to be used
-    #print("KeyboardLayout=", file=f)
+    # print("KeyboardLayout=", file=f)
 
     # Use Alternative Candidate Word Number
-    #print("UseAlternativeCandidateWordNumber=", file=f)
+    # print("UseAlternativeCandidateWordNumber=", file=f)
 
     # Candidate Word Number
-    #print("CandidateWordNumber=", file=f)
+    # print("CandidateWordNumber=", file=f)
 
     # Use Alternative Key for paging
-    #print("UseAlternativePageKey=", file=f)
+    # print("UseAlternativePageKey=", file=f)
 
     # Alternative Prev Page Key
-    #print("AlternativePrevPage=", file=f)
+    # print("AlternativePrevPage=", file=f)
 
     # Alternative Next Page Key
-    #print("AlternativeNextPage=", file=f)
+    # print("AlternativeNextPage=", file=f)
 
     # First Candidate Display as Preedit
-    #print("FirstCandidateAsPreedit=", file=f)
+    # print("FirstCandidateAsPreedit=", file=f)
 
     # Commit and pass when invalid key of this table pressed
-    #print("CommitAndPassByInvalidKey=", file=f)
+    # print("CommitAndPassByInvalidKey=", file=f)
 
     # Commit key for select first candidate
-    #print("CommitKey=", file=f)
+    # print("CommitKey=", file=f)
 
     # Commit string when there is no match
-    #print("CommitKeyCommitWhenNoMatch=", file=f)
+    # print("CommitKeyCommitWhenNoMatch=", file=f)
 
     # Ignore Punctuation
-    #print("IgnorePunc=", file=f)
+    # print("IgnorePunc=", file=f)
 
     # Ignore some Punctuation, if it is empty, then ignore all punctuation
-    #print("IgnorePuncList=", file=f)
+    # print("IgnorePuncList=", file=f)
 
 
 def gen_fcitx_data_file(im_name, definitions, table, output2stdout):
