@@ -3,5 +3,5 @@
 # 安裝
 
 ```sh
-./install_fcitx_tlim2.sh
+./install-fcitx-table-tlim2.sh
 ```
