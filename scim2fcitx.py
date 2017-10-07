@@ -134,9 +134,10 @@ def gen_fcitx_conf_file(im_name, definitions, table, output2stdout):
     # print("SymbolFile=", file=f)
 
     # Choose
-    if 'SELECT_KEYS' in definitions:
-        choose = ''.join(definitions['SELECT_KEYS'].split(','))
-        print("Choose=%s" % choose, file=f)
+    #if 'SELECT_KEYS' in definitions:
+    #    choose = ''.join(definitions['SELECT_KEYS'].split(','))
+    #    print("Choose=%s" % choose, file=f)
+    print("Choose=vwxyz", file=f)
 
     # Choose key modifier
     # None, Alt, Ctrl, Shift
